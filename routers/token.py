@@ -45,15 +45,15 @@ def create_user(db, username: str):
     if username in db:
        user_dict = db[username]
        fake_hashed_password = user_dict['hashed_password'] + "notreallyhashed"
-       db_user = models.User(email=user_dict['email'], 
+       db_user = models.User(email=user_dict['email'],
                              username=user_dict,
                              full_name=user_dict['full_name'],
                              hashed_password=fake_hashed_password)
        db.add(db_user)
        db.commit()
        db.refresh(db_user)
-       return db_user   
-    
+       return db_user
+
 
 
 def fake_decode_token(token):
@@ -81,6 +81,8 @@ async def get_current_active_user(
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
+
+
 
 
 @router.post("/token")

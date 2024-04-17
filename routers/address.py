@@ -5,16 +5,9 @@ import models, schemas
 from database import SessionLocal, engine
 
 from typing import Optional, Annotated
-from fastapi_filter.contrib.sqlalchemy import Filter
-
-class UserFilter(Filter):
-    order_by: Optional[list[str]]
-
 
 
 models.Base.metadata.create_all(bind=engine)
-
-
 
 router = APIRouter()
 
@@ -29,13 +22,17 @@ def get_db():
 
 
 
-@router.get("/address/")
-def get_address(db: Session):
-    current_user: Annotated[schemas.UserBase, Depends(get_current_active_user)],
+@router.get("/address/{lat}")
+def get_address(db: Session = Depends(get_db)):
     return db.query(models.AddressItem).all()
 
+@router.post("/address/{lat}&{lon}", response_model=schemas.Address)
+def get_address_for_user(lat: float, lon: float, db: Session = Depends(get_db)):
+    return db.query(models.AddressItem).filter(models.AddressItem.lat == lat).all()
 
-@router.post("/users/{user_id}/address/", response_model=schemas.Address)
+
+
+@router.post("/address/{user_id}/", response_model=schemas.Address)
 def create_address_for_user(
     user_id: int, address_item: schemas.AddressCreate, db: Session = Depends(get_db)
 ):
