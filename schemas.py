@@ -13,6 +13,7 @@ class AddressCreate(AddressBase):
 
 class Address(AddressBase):
     id: int
+<<<<<<< HEAD
     owner_id: int
 
     class Config:
@@ -41,3 +42,9 @@ class User(UserBase):
 
     class Config:
         from_attributes = True
+=======
+    username: str
+    name: str
+    email: str
+    nickname: str
+>>>>>>> 60797d5d7c8ac47e350a2214a2de3b8e3bcf7105
