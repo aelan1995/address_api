@@ -1,15 +1,12 @@
 from typing import Union
-
+from dependencies import get_query_token, get_token_header
+from internal import admin
+from routers import address, users, token
 from fastapi import FastAPI
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+app.include_router(token.router)
+app.include_router(address.router)
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
