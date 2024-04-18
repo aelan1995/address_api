@@ -1,3 +1,8 @@
+"""
+Create Users and Authentication
+
+"""
+
 from typing import Annotated
 
 from fastapi import Depends, APIRouter, HTTPException, status

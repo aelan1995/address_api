@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+from typing import Optional
+
 
 
 class AddressBase(BaseModel):
@@ -19,8 +21,15 @@ class Address(AddressBase):
         from_attributes = True
 
 class AddressLatLon(BaseModel):
+    address: Optional[str] 
+    id: Optional[int]
+    owner_id: Optional[int]
     lat: float | None = None
     lon: float | None = None
+    
+    class Config:
+        orm_mode = True
+    
 
 
 class UserBase(BaseModel):
